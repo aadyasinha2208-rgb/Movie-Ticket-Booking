@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAKETWO | Movie Tickets</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <a href="#home" class="logo">🎬 TAKETWO</a>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#movies">Movies</a>
+        <a href="#booking">Book Tickets</a>
+        <a href="#snacks">Refreshments</a>
+    </nav>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <p class="eyebrow">WELCOME TO TAKETWO</p>
+        <h1>Lights. Camera. <span>TAKETWO.</span></h1>
+        <h2>Your Seat. Your Story. Your Cinema.</h2>
+        <p>Good movies.Great experience.</p>
+        <a href="#movies" class="main-btn">Explore Movies</a>
+    </div>
+</section>
+
+<!-- MOVIES SECTION -->
+<section class="section" id="movies">
+    <div class="section-heading">
+        <p class="eyebrow">THE BIG SCREEN EXPERIENCE</p>
+        <h2>Now <span>Showing</span></h2>
+        <p>Find your next favourite movie.</p>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="movieSearch" placeholder="Search for a movie...">
+    </div>
+
+    <div class="movie-grid" id="movieGrid">
+
+        <div class="movie-card">
+            <div class="poster-wrap" data-title="FIGHT CLUB">
+                <img src="https://image.tmdb.org/t/p/w500/8kNruSfhk5IoE4eZOc4UpvDn6tq.jpg"
+                     alt="Fight Club poster">
+            </div>
+            <div class="movie-info">
+                <h3>Fight Club</h3>
+                <p>Drama | Thriller</p>
+                <button onclick="selectMovie('Fight Club')">Book Now</button>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <div class="poster-wrap" data-title="ME BEFORE YOU">
+                <img src="me before you.jpg"
+                     alt="Me Before You poster">
+            </div>
+            <div class="movie-info">
+                <h3>Me Before You</h3>
+                <p>Romance | Drama</p>
+                <button onclick="selectMovie('Me Before You')">Book Now</button>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <div class="poster-wrap" data-title="THE CONJURING">
+                <img src="https://image.tmdb.org/t/p/w500/wVYREutTvI2tmxr6ujrHT704wGF.jpg"
+                     alt="The Conjuring poster">
+            </div>
+            <div class="movie-info">
+                <h3>The Conjuring</h3>
+                <p>Horror | Mystery</p>
+                <button onclick="selectMovie('The Conjuring')">Book Now</button>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <div class="poster-wrap" data-title="3 IDIOTS">
+                <img src="https://image.tmdb.org/t/p/w500/66A9MqXOyVFCssoloscw79z8Tew.jpg"
+                     alt="3 Idiots poster">
+            </div>
+            <div class="movie-info">
+                <h3>3 Idiots</h3>
+                <p>Comedy | Drama</p>
+                <button onclick="selectMovie('3 Idiots')">Book Now</button>
+            </div>
+        </div>
+
+    </div>
+
+    <p id="noMovies" class="no-movies hidden">No movies found.</p>
+</section>
+
+<!-- BOOKING SECTION -->
+<section class="section booking-section" id="booking">
+    <div class="section-heading">
+        <p class="eyebrow">RESERVE YOUR SPOT</p>
+        <h2>Book Your <span>Tickets</span></h2>
+        <p>Your perfect movie experience starts here.</p>
+    </div>
+
+    <div class="booking-container">
+
+        <div class="booking-details">
+            <h3>Booking Details</h3>
+
+            <label for="movie">Select Movie</label>
+            <select id="movie">
+                <option value="">Choose a movie</option>
+                <option>Fight Club</option>
+                <option>Me Before You</option>
+                <option>The Conjuring</option>
+                <option>3 Idiots</option>
+            </select>
+
+            <label for="theatre">Select Theatre</label>
+            <select id="theatre">
+                <option value="">Choose a theatre</option>
+                <option>PVR Cinemas</option>
+                <option>INOX</option>
+                <option>Cinepolis</option>
+            </select>
+
+            <label for="showtime">Select Show Time</label>
+            <select id="showtime">
+                <option value="">Choose a time</option>
+                <option>10:00 AM</option>
+                <option>1:00 PM</option>
+                <option>4:00 PM</option>
+                <option>7:00 PM</option>
+            </select>
+
+            <div class="price-note">
+                <span>Ticket price</span>
+                <strong>₹200 / seat</strong>
+            </div>
+        </div>
+
+        <!-- SEAT SELECTION -->
+        <div class="seat-area">
+            <h3>Choose Your Seats</h3>
+
+            <div class="screen">SCREEN</div>
+
+            <div class="seat-layout">
+                <div class="seat-row">
+                    <button class="seat" data-seat="A1">A1</button>
+                    <button class="seat" data-seat="A2">A2</button>
+                    <button class="seat" data-seat="A3">A3</button>
+                    <button class="seat" data-seat="A4">A4</button>
+                </div>
+
+                <div class="seat-row">
+                    <button class="seat" data-seat="B1">B1</button>
+                    <button class="seat" data-seat="B2">B2</button>
+                    <button class="seat" data-seat="B3">B3</button>
+                    <button class="seat" data-seat="B4">B4</button>
+                </div>
+
+                <div class="seat-row">
+                    <button class="seat" data-seat="C1">C1</button>
+                    <button class="seat" data-seat="C2">C2</button>
+                    <button class="seat" data-seat="C3">C3</button>
+                    <button class="seat" data-seat="C4">C4</button>
+                </div>
+            </div>
+
+            <div class="seat-legend">
+                <span><i class="available"></i> Available</span>
+                <span><i class="chosen"></i> Selected</span>
+                <span><i class="occupied"></i> Booked</span>
+            </div>
+
+            <p class="selected-text">
+                Selected Seats: <strong id="selectedSeats">None</strong>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- REFRESHMENTS -->
+<section class="section snacks-section" id="snacks">
+    <div class="section-heading">
+        <p class="eyebrow">MOVIE TIME ESSENTIALS</p>
+        <h2>Good Movies. <span>Great Snacks.</span></h2>
+        <p>Make your movie experience even better.</p>
+    </div>
+
+    <div class="snack-grid">
+
+        <div class="snack-card">
+            <div class="snack-icon">🍿</div>
+            <h3>Classic Popcorn</h3>
+            <p class="snack-price">₹120</p>
+            <button onclick="changeSnack('popcorn', 1)">Add to Bill</button>
+            <p class="quantity">Quantity: <span id="popcornQty">0</span></p>
+        </div>
+
+        <div class="snack-card">
+            <div class="snack-icon">🧀</div>
+            <h3>Cheese Nachos</h3>
+            <p class="snack-price">₹150</p>
+            <button onclick="changeSnack('nachos', 1)">Add to Bill</button>
+            <p class="quantity">Quantity: <span id="nachosQty">0</span></p>
+        </div>
+
+        <div class="snack-card">
+            <div class="snack-icon">🥤</div>
+            <h3>Cold Drink</h3>
+            <p class="snack-price">₹90</p>
+            <button onclick="changeSnack('drink', 1)">Add to Bill</button>
+            <p class="quantity">Quantity: <span id="drinkQty">0</span></p>
+        </div>
+
+        <div class="snack-card">
+            <div class="snack-icon">🍔</div>
+            <h3>Classic Burger</h3>
+            <p class="snack-price">₹180</p>
+            <button onclick="changeSnack('burger', 1)">Add to Bill</button>
+            <p class="quantity">Quantity: <span id="burgerQty">0</span></p>
+        </div>
+
+    </div>
+
+    <!-- SNACK BILL -->
+    <div class="snack-bill">
+        <h3>Your Snack Bill</h3>
+        <div id="snackBillItems">
+            <p class="empty-message">No snacks added yet.</p>
+        </div>
+        <div class="snack-total">
+            <span>Total:</span>
+            <strong id="snackTotal">₹0</strong>
+        </div>
+    </div>
+</section>
+
+<!-- PAYMENT AND SUMMARY -->
+<section class="section payment-section" id="payment">
+    <div class="section-heading">
+        <p class="eyebrow">FINAL STEP</p>
+        <h2>Your Booking <span>Summary</span></h2>
+    </div>
+
+    <div class="bill-container">
+
+        <div class="bill-row">
+            <span>Movie</span>
+            <strong id="billMovie">Not selected</strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Theatre</span>
+            <strong id="billTheatre">Not selected</strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Show Time</span>
+            <strong id="billTime">Not selected</strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Seats</span>
+            <strong id="billSeats">None</strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Ticket Amount</span>
+            <strong id="ticketTotal">₹0</strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Refreshments</span>
+            <strong id="billSnackTotal">₹0</strong>
+        </div>
+
+        <div class="bill-row total-row">
+            <span>Grand Total</span>
+            <strong id="grandTotal">₹0</strong>
+        </div>
+
+        <h3>Payment Method</h3>
+
+        <div class="payment-options">
+            <label>
+                <input type="radio" name="payment" value="card" checked>
+                Debit / Credit Card
+            </label>
+
+            <label>
+                <input type="radio" name="payment" value="upi">
+                UPI
+            </label>
+        </div>
+
+        <div id="cardFields">
+            <input id="cardNumber" placeholder="Card Number (16 digits)" maxlength="16">
+            <div class="card-extra">
+                <input id="expiry" placeholder="MM/YY" maxlength="5">
+                <input id="cvv" type="password" placeholder="CVV" maxlength="3">
+            </div>
+        </div>
+
+        <div id="upiFields" class="hidden">
+            <input id="upiId" placeholder="Enter UPI ID">
+        </div>
+
+        <button class="confirm-btn" id="confirmBtn" onclick="confirmBooking()">
+            Confirm Booking
+        </button>
+
+        <p id="bookingMessage"></p>
+    </div>
+</section>
+
+<!-- CANCELLATION -->
+<section class="section cancellation-section">
+    <h2>Changed Your Plans?</h2>
+    <p>Cancel your confirmed booking and release your seats.</p>
+    <button class="cancel-btn" onclick="cancelBooking()">Cancel Booking</button>
+    <p id="cancelMessage"></p>
+</section>
+
+<footer>
+    <h2>🎬 TAKETWO</h2>
+    <p>Your Seat. Your Story. Your Cinema.</p>
+    <p>© 2026 TAKETWO. All Rights Reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
