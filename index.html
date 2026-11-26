@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +15,14 @@
         <a href="#movies">Movies</a>
         <a href="#booking">Book Tickets</a>
         <a href="#snacks">Refreshments</a>
+
+        <!-- LOGIN / REGISTER / LOGOUT -->
+        <span class="auth-area" id="authArea">
+            <button type="button" class="auth-link-btn" id="loginBtn">Login</button>
+            <button type="button" class="auth-link-btn auth-solid" id="registerBtn">Register</button>
+            <span class="auth-username" id="authUsername" hidden></span>
+            <button type="button" class="auth-link-btn" id="logoutBtn" hidden>Logout</button>
+        </span>
     </nav>
 </header>
 
@@ -332,6 +339,36 @@
     <p>Your Seat. Your Story. Your Cinema.</p>
     <p>© 2026 TAKETWO. All Rights Reserved.</p>
 </footer>
+
+<!-- LOGIN / REGISTER MODAL -->
+<div class="auth-modal" id="authModal" hidden>
+    <div class="auth-box">
+        <button type="button" class="auth-close" id="authClose" aria-label="Close">&times;</button>
+
+        <div class="auth-tabs">
+            <button type="button" class="auth-tab active" data-tab="login">Login</button>
+            <button type="button" class="auth-tab" data-tab="register">Register</button>
+        </div>
+
+        <form id="loginForm" class="auth-form" novalidate>
+            <h3>Welcome back</h3>
+            <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+            <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password">
+            <p class="auth-error" id="loginError"></p>
+            <button type="submit" class="main-btn auth-submit">Login</button>
+        </form>
+
+        <form id="registerForm" class="auth-form" novalidate hidden>
+            <h3>Create your account</h3>
+            <input type="text" id="regName" placeholder="Full name" autocomplete="name">
+            <input type="email" id="regEmail" placeholder="Email" autocomplete="email">
+            <input type="password" id="regPass" placeholder="Password (min 6 characters)" autocomplete="new-password">
+            <input type="password" id="regPass2" placeholder="Confirm password" autocomplete="new-password">
+            <p class="auth-error" id="regError"></p>
+            <button type="submit" class="main-btn auth-submit">Register</button>
+        </form>
+    </div>
+</div>
 
 <script src="script.js"></script>
 </body>

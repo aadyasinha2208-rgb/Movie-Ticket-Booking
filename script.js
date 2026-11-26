@@ -1,4 +1,3 @@
-
 // =====================================
 // TAKETWO - MOVIE BOOKING WEBSITE
 // =====================================
@@ -704,3 +703,246 @@ updateSnackBill();
 updateSeats();
 
 updateBill();
+
+
+// =====================================
+// LOGIN / REGISTER / LOGOUT
+// (front-end demo: users are stored in the browser's localStorage)
+// =====================================
+
+(function () {
+
+    const USERS_KEY = "taketwo_users";
+    const SESSION_KEY = "taketwo_session";
+
+    const authModal = document.getElementById("authModal");
+
+
+    // ---------- storage helpers ----------
+
+    function getUsers() {
+        try {
+            return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveUsers(users) {
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+
+    function getSession() {
+        try {
+            return JSON.parse(localStorage.getItem(SESSION_KEY));
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // SHA-256 so passwords are not stored as plain text
+    // (needs https or localhost - Netlify is https, so it works)
+    async function hashText(text) {
+        const buffer = await crypto.subtle.digest(
+            "SHA-256",
+            new TextEncoder().encode(text)
+        );
+        return Array.from(new Uint8Array(buffer))
+            .map(b => b.toString(16).padStart(2, "0"))
+            .join("");
+    }
+
+
+    // ---------- UI ----------
+
+    function updateAuthUI() {
+
+        const user = getSession();
+
+        document.getElementById("loginBtn").hidden = Boolean(user);
+        document.getElementById("registerBtn").hidden = Boolean(user);
+        document.getElementById("authUsername").hidden = !user;
+        document.getElementById("logoutBtn").hidden = !user;
+
+        if (user) {
+            document.getElementById("authUsername").textContent =
+                "Hi, " + user.name.split(" ")[0];
+        }
+
+    }
+
+    function switchAuthTab(tab) {
+
+        document.querySelectorAll(".auth-tab").forEach(t => {
+            t.classList.toggle("active", t.dataset.tab === tab);
+        });
+
+        document.getElementById("loginForm").hidden = tab !== "login";
+        document.getElementById("registerForm").hidden = tab !== "register";
+
+    }
+
+    function openAuthModal(tab) {
+        authModal.hidden = false;
+        switchAuthTab(tab || "login");
+    }
+
+    function closeAuthModal() {
+        authModal.hidden = true;
+        document.getElementById("loginForm").reset();
+        document.getElementById("registerForm").reset();
+        document.getElementById("loginError").textContent = "";
+        document.getElementById("regError").textContent = "";
+    }
+
+
+    // ---------- register ----------
+
+    document.getElementById("registerForm").addEventListener("submit", async function (e) {
+
+        e.preventDefault();
+
+        const name = document.getElementById("regName").value.trim();
+        const email = document.getElementById("regEmail").value.trim().toLowerCase();
+        const pass = document.getElementById("regPass").value;
+        const pass2 = document.getElementById("regPass2").value;
+        const error = document.getElementById("regError");
+
+        if (!name || !email || !pass) {
+            error.textContent = "Please fill in all fields.";
+            return;
+        }
+
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            error.textContent = "Enter a valid email address.";
+            return;
+        }
+
+        if (pass.length < 6) {
+            error.textContent = "Password must be at least 6 characters.";
+            return;
+        }
+
+        if (pass !== pass2) {
+            error.textContent = "Passwords do not match.";
+            return;
+        }
+
+        const users = getUsers();
+
+        if (users.some(u => u.email === email)) {
+            error.textContent = "An account with this email already exists.";
+            return;
+        }
+
+        users.push({
+            name: name,
+            email: email,
+            password: await hashText(pass)
+        });
+
+        saveUsers(users);
+
+        localStorage.setItem(
+            SESSION_KEY,
+            JSON.stringify({ name: name, email: email })
+        );
+
+        updateAuthUI();
+        closeAuthModal();
+
+    });
+
+
+    // ---------- login ----------
+
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+
+        e.preventDefault();
+
+        const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+        const pass = document.getElementById("loginPass").value;
+        const error = document.getElementById("loginError");
+
+        if (!email || !pass) {
+            error.textContent = "Please enter your email and password.";
+            return;
+        }
+
+        const user = getUsers().find(u => u.email === email);
+
+        if (!user || user.password !== await hashText(pass)) {
+            error.textContent = "Invalid email or password.";
+            return;
+        }
+
+        localStorage.setItem(
+            SESSION_KEY,
+            JSON.stringify({ name: user.name, email: user.email })
+        );
+
+        updateAuthUI();
+        closeAuthModal();
+
+    });
+
+
+    // ---------- logout ----------
+
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+        localStorage.removeItem(SESSION_KEY);
+        updateAuthUI();
+    });
+
+
+    // ---------- open / close popup ----------
+
+    document.getElementById("loginBtn").addEventListener("click", function () {
+        openAuthModal("login");
+    });
+
+    document.getElementById("registerBtn").addEventListener("click", function () {
+        openAuthModal("register");
+    });
+
+    document.getElementById("authClose").addEventListener("click", closeAuthModal);
+
+    authModal.addEventListener("click", function (e) {
+        if (e.target === authModal) {
+            closeAuthModal();
+        }
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !authModal.hidden) {
+            closeAuthModal();
+        }
+    });
+
+    document.querySelectorAll(".auth-tab").forEach(tab => {
+        tab.addEventListener("click", function () {
+            switchAuthTab(this.dataset.tab);
+        });
+    });
+
+
+    // ---------- require login to book ----------
+    // "Book Now" and "Confirm Booking" open the login popup if nobody is logged in.
+    // Delete this block if you do not want to force login.
+
+    document.addEventListener("click", function (e) {
+
+        const btn = e.target.closest(".movie-info button, #confirmBtn");
+
+        if (btn && !getSession()) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            openAuthModal("login");
+        }
+
+    }, true);
+
+
+    updateAuthUI();
+
+})();
